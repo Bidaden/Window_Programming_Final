@@ -14,7 +14,7 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            this.ClientSize = new System.Drawing.Size(700, 500);
+            this.ClientSize = new System.Drawing.Size(1100, 700);
             this.Name = "FormGuestDashboard";
             this.ResumeLayout(false);
         }

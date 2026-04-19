@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,6 +42,12 @@
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Dapper.2.1.72\lib\net461\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.32.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\Google.Protobuf.3.32.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -61,6 +70,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.ConfigurationManager, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Configuration.ConfigurationManager.8.0.0\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
@@ -98,13 +108,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\CategoryService.cs" />
+    <Compile Include="BL\ExportOrderService.cs" />
+    <Compile Include="BL\ImportOrderService.cs" />
+    <Compile Include="BL\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="BL\Interfaces\IExportOrderRepository.cs" />
+    <Compile Include="BL\Interfaces\IImportOrderRepository.cs" />
     <Compile Include="BL\Interfaces\IProductRepository.cs" />
+    <Compile Include="BL\Interfaces\IStockMovementRepository.cs" />
+    <Compile Include="BL\Interfaces\ISupplierRepository.cs" />
     <Compile Include="BL\Interfaces\IUserRepository.cs" />
+    <Compile Include="BL\Interfaces\SaleOrderService.cs" />
     <Compile Include="BL\ProductService.cs" />
+    <Compile Include="BL\StockMovementService.cs" />
+    <Compile Include="BL\SupplierService.cs" />
     <Compile Include="BL\UserService.cs" />
+    <Compile Include="DAL\CategoryRepository.cs" />
     <Compile Include="DAL\DBConnection.cs" />
+    <Compile Include="DAL\ExportOrderRepository.cs" />
+    <Compile Include="DAL\ImportOrderRepository.cs" />
     <Compile Include="DAL\ProductRepository.cs" />
+    <Compile Include="DAL\SaleOrderRepository.cs" />
+    <Compile Include="DAL\StockMovementRepository.cs" />
+    <Compile Include="DAL\SupplierRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
+    <Compile Include="DAL_EF\AppConfig.cs" />
+    <Compile Include="DAL_EF\AppDbContext.cs" />
+    <Compile Include="DAL_EF\CategoryRepositoryEF.cs" />
+    <Compile Include="DAL_EF\ProductRepositoryEF.cs" />
+    <Compile Include="DAL_EF\RepositoryFactory.cs" />
+    <Compile Include="DAL_EF\SaleOrderRepositoryEF.cs" />
+    <Compile Include="DAL_EF\SupplierRepositoryEF.cs" />
+    <Compile Include="DAL_EF\UserRepositoryEF.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,11 +152,35 @@
     <Compile Include="Forms\FormAdminDashboard.Designer.cs">
       <DependentUpon>FormAdminDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormCart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormCart.Designer.cs">
+      <DependentUpon>FormCart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormCategories.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormCategories.Designer.cs">
+      <DependentUpon>FormCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormExportOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormExportOrder.Designer.cs">
+      <DependentUpon>FormExportOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormGuestDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormGuestDashboard.Designer.cs">
       <DependentUpon>FormGuestDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormImportOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormImportOrder.Designer.cs">
+      <DependentUpon>FormImportOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormLogin.cs">
       <SubType>Form</SubType>
@@ -129,11 +188,41 @@
     <Compile Include="Forms\FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormOrderHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormOrderHistory.Designer.cs">
+      <DependentUpon>FormOrderHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormProducts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormProducts.Designer.cs">
+      <DependentUpon>FormProducts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormRegister.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormRegister.Designer.cs">
       <DependentUpon>FormRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormSaleHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormSaleHistory.Designer.cs">
+      <DependentUpon>FormSaleHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormStockReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormStockReport.Designer.cs">
+      <DependentUpon>FormStockReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormSuppliers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormSuppliers.Designer.cs">
+      <DependentUpon>FormSuppliers.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormUserDashboard.cs">
       <SubType>Form</SubType>
@@ -141,7 +230,17 @@
     <Compile Include="Forms\FormUserDashboard.Designer.cs">
       <DependentUpon>FormUserDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ExportOrder.cs" />
+    <Compile Include="Models\ExportOrderDetail.cs" />
+    <Compile Include="Models\ImportOrder.cs" />
+    <Compile Include="Models\ImportOrderDetail.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\SaleOrder.cs" />
+    <Compile Include="Models\SaleOrderDetail.cs" />
+    <Compile Include="Models\StockMovement.cs" />
+    <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormProducts.resx">
+      <DependentUpon>FormProducts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormUserDashboard.resx">
       <DependentUpon>FormUserDashboard.cs</DependentUpon>
@@ -180,5 +282,90 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Image\Products\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Image\AirPods Pro 2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Bàn phím Keychron K2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chuột Logitech MX Master 3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Chuột Razer Viper.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Huawei MatePad 11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\iPad Gen 10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\iPad Mini 6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\iPad Pro M2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\iPhone 14 Pro Max 256GB.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\iPhone 15 128GB.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\IPhone 15 Pro.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Laptop Acer Swift 3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Laptop ASUS ROG Strix G15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Laptop Dell XPS 15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Laptop HP Envy 13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Laptop Lenovo Legion 5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\MacBook Air M1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Microsoft Surface Go 3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\OPPO Find X5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\S24 Ultra.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Samsung Galaxy A54.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Samsung Galaxy Tab S9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Tai nghe JBL Tune 760NC.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Tai nghe Sony WH-1000XM5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
 </Project>

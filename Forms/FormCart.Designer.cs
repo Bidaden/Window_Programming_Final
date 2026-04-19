@@ -1,6 +1,6 @@
 ﻿namespace MySellerApp.Forms
 {
-    partial class FormAdminDashboard
+    partial class FormCart
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -14,8 +14,8 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            this.ClientSize = new System.Drawing.Size(1200, 700);
-            this.Name = "FormAdminDashboard";
+            this.ClientSize = new System.Drawing.Size(750, 650);
+            this.Name = "FormCart";
             this.ResumeLayout(false);
         }
     }

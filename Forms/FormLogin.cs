@@ -1,16 +1,17 @@
-﻿using System;
+﻿using MySellerApp.BL;
+using MySellerApp.DAL;
+using MySellerApp.DAL_EF;
+using MySellerApp.Models;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using MySellerApp.BL;
-using MySellerApp.DAL;
-using MySellerApp.Models;
 
 namespace MySellerApp.Forms
 {
     public partial class FormLogin : Form
     {
         private readonly UserService _userService
-            = new UserService(new UserRepository());
+    = new UserService(RepositoryFactory.CreateUserRepository());
 
         public FormLogin()
         {

@@ -1,6 +1,6 @@
 ﻿namespace MySellerApp.Forms
 {
-    partial class FormAdminDashboard
+    partial class FormStockReport
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -14,8 +14,8 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            this.ClientSize = new System.Drawing.Size(1200, 700);
-            this.Name = "FormAdminDashboard";
+            this.ClientSize = new System.Drawing.Size(1100, 680);
+            this.Name = "FormStockReport";
             this.ResumeLayout(false);
         }
     }
