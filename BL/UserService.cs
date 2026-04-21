@@ -29,7 +29,8 @@ namespace MySellerApp.BL
             {
                 Name = name,
                 Email = email,
-                Password = password
+                Password = password,
+                Role = "user" 
             });
         }
 

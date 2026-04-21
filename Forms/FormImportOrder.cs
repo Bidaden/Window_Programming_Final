@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MySellerApp.DAL;
+using MySellerApp.Forms.Helpers;
+using MySellerApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using MySellerApp.DAL;
-using MySellerApp.Models;
 
 namespace MySellerApp.Forms
 {
@@ -32,66 +33,18 @@ namespace MySellerApp.Forms
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.White;
 
-            // ===== HEADER =====
-            var pnlHeader = new Panel();
-            pnlHeader.BackColor = Color.FromArgb(30, 80, 160);
-            pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Height = 50;
+            this.Controls.Add(UIHelper.CreateHeader("QUAN LY PHIEU NHAP HANG", Color.FromArgb(30, 80, 160)));
 
-            var lblTitle = new Label();
-            lblTitle.Text = "QUAN LY PHIEU NHAP HANG";
-            lblTitle.Font = new Font("Segoe UI", 13, FontStyle.Bold);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Dock = DockStyle.Fill;
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            pnlHeader.Controls.Add(lblTitle);
-
-            // ===== TOOLBAR =====
-            var pnlToolbar = new Panel();
-            pnlToolbar.BackColor = Color.FromArgb(245, 248, 255);
-            pnlToolbar.Dock = DockStyle.Top;
-            pnlToolbar.Height = 48;
-
-            var btnCreate = new Button();
-            btnCreate.Text = "Tao phieu nhap moi";
-            btnCreate.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnCreate.Size = new Size(180, 34);
-            btnCreate.Location = new Point(12, 7);
-            btnCreate.BackColor = Color.FromArgb(30, 160, 80);
-            btnCreate.ForeColor = Color.White;
-            btnCreate.FlatStyle = FlatStyle.Flat;
-            btnCreate.FlatAppearance.BorderSize = 0;
-            btnCreate.Cursor = Cursors.Hand;
-            btnCreate.Click += (s, e) => ShowCreateImportDialog();
-
-            var btnRefresh = new Button();
-            btnRefresh.Text = "Lam moi";
-            btnRefresh.Font = new Font("Segoe UI", 9);
-            btnRefresh.Size = new Size(100, 34);
-            btnRefresh.Location = new Point(202, 7);
-            btnRefresh.BackColor = Color.FromArgb(240, 240, 240);
-            btnRefresh.FlatStyle = FlatStyle.Flat;
-            btnRefresh.Cursor = Cursors.Hand;
-            btnRefresh.Click += (s, e) => LoadData();
-
+            var pnlToolbar = new Panel { BackColor = Color.FromArgb(245, 248, 255), Dock = DockStyle.Top, Height = 48 };
             pnlToolbar.Controls.AddRange(new Control[] {
-                btnCreate, btnRefresh
-            });
-
-            // ===== DATAGRIDVIEW =====
-            _dgvOrders = new DataGridView();
-            _dgvOrders.Dock = DockStyle.Fill;
-            _dgvOrders.ReadOnly = true;
-            _dgvOrders.AllowUserToAddRows = false;
-            _dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            _dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _dgvOrders.BackgroundColor = Color.White;
-            _dgvOrders.RowTemplate.Height = 34;
-            _dgvOrders.ColumnHeadersHeight = 36;
-
-            this.Controls.Add(_dgvOrders);
+        UIHelper.CreateBtn("Tao phieu moi", Color.FromArgb(30, 160, 80), (s,e) => ShowCreateImportDialog(), 12, 7, 180),
+        UIHelper.CreateBtn("Lam moi", Color.FromArgb(240, 240, 240), (s,e) => LoadData(), 202, 7, 100)
+    });
             this.Controls.Add(pnlToolbar);
-            this.Controls.Add(pnlHeader);
+
+            _dgvOrders = UIHelper.CreateGrid();
+            _dgvOrders.Dock = DockStyle.Fill;
+            this.Controls.Add(_dgvOrders);
         }
 
         private void LoadData()

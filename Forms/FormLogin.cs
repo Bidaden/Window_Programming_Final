@@ -11,7 +11,7 @@ namespace MySellerApp.Forms
     public partial class FormLogin : Form
     {
         private readonly UserService _userService
-    = new UserService(RepositoryFactory.CreateUserRepository());
+            = new UserService(RepositoryFactory.CreateUserRepository());
 
         public FormLogin()
         {
@@ -21,7 +21,6 @@ namespace MySellerApp.Forms
 
         private void SetupUI()
         {
-            // Form
             this.Text = "ElectronicShop - Đăng Nhập";
             this.Size = new Size(420, 520);
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -29,7 +28,7 @@ namespace MySellerApp.Forms
             this.MaximizeBox = false;
             this.BackColor = Color.White;
 
-            // Logo label (thay icon)
+            // ===== LOGO =====
             var lblLogo = new Label();
             lblLogo.Text = "⚙";
             lblLogo.Font = new Font("Segoe UI", 36);
@@ -37,8 +36,9 @@ namespace MySellerApp.Forms
             lblLogo.TextAlign = ContentAlignment.MiddleCenter;
             lblLogo.Size = new Size(380, 70);
             lblLogo.Location = new Point(20, 20);
+            lblLogo.UseCompatibleTextRendering = true;
 
-            // Tên shop
+            // ===== TÊN SHOP =====
             var lblShop = new Label();
             lblShop.Text = "ELECTRONIC SHOP";
             lblShop.Font = new Font("Segoe UI", 14, FontStyle.Bold);
@@ -46,8 +46,9 @@ namespace MySellerApp.Forms
             lblShop.TextAlign = ContentAlignment.MiddleCenter;
             lblShop.Size = new Size(380, 30);
             lblShop.Location = new Point(20, 95);
+            lblShop.UseCompatibleTextRendering = true;
 
-            // Tiêu đề
+            // ===== TIÊU ĐỀ =====
             var lblTitle = new Label();
             lblTitle.Text = "ĐĂNG NHẬP";
             lblTitle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
@@ -55,15 +56,16 @@ namespace MySellerApp.Forms
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             lblTitle.Size = new Size(380, 28);
             lblTitle.Location = new Point(20, 128);
+            lblTitle.UseCompatibleTextRendering = true;
 
-            // Label Email
+            // ===== EMAIL =====
             var lblEmail = new Label();
             lblEmail.Text = "Email / Tên đăng nhập:";
             lblEmail.Font = new Font("Segoe UI", 9);
             lblEmail.Location = new Point(30, 172);
             lblEmail.AutoSize = true;
+            lblEmail.UseCompatibleTextRendering = true;
 
-            // TextBox Email
             var txtEmail = new TextBox();
             txtEmail.Name = "txtEmail";
             txtEmail.Font = new Font("Segoe UI", 11);
@@ -71,14 +73,14 @@ namespace MySellerApp.Forms
             txtEmail.Location = new Point(30, 193);
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
 
-            // Label Password
+            // ===== MẬT KHẨU =====
             var lblPass = new Label();
             lblPass.Text = "Mật khẩu:";
             lblPass.Font = new Font("Segoe UI", 9);
             lblPass.Location = new Point(30, 242);
             lblPass.AutoSize = true;
+            lblPass.UseCompatibleTextRendering = true;
 
-            // TextBox Password
             var txtPassword = new TextBox();
             txtPassword.Name = "txtPassword";
             txtPassword.Font = new Font("Segoe UI", 11);
@@ -87,7 +89,7 @@ namespace MySellerApp.Forms
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.PasswordChar = '●';
 
-            // Nút Đăng Nhập
+            // ===== NÚT ĐĂNG NHẬP =====
             var btnLogin = new Button();
             btnLogin.Text = "ĐĂNG NHẬP";
             btnLogin.Font = new Font("Segoe UI", 11, FontStyle.Bold);
@@ -99,7 +101,7 @@ namespace MySellerApp.Forms
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.Cursor = Cursors.Hand;
 
-            // Nút Guest
+            // ===== NÚT KHÁCH =====
             var btnGuest = new Button();
             btnGuest.Text = "Hoặc xem với tư cách Khách (Viewer)";
             btnGuest.Font = new Font("Segoe UI", 9);
@@ -111,7 +113,7 @@ namespace MySellerApp.Forms
             btnGuest.FlatAppearance.BorderColor = Color.FromArgb(200, 200, 200);
             btnGuest.Cursor = Cursors.Hand;
 
-            // Link Đăng ký
+            // ===== LINK ĐĂNG KÝ =====
             var lnkRegister = new LinkLabel();
             lnkRegister.Text = "Chưa có tài khoản? Đăng ký ngay";
             lnkRegister.Font = new Font("Segoe UI", 9);
@@ -120,7 +122,7 @@ namespace MySellerApp.Forms
             lnkRegister.TextAlign = ContentAlignment.MiddleCenter;
             lnkRegister.LinkColor = Color.FromArgb(30, 80, 160);
 
-            // Thêm controls vào Form
+            // ===== THÊM CONTROLS =====
             this.Controls.AddRange(new Control[] {
                 lblLogo, lblShop, lblTitle,
                 lblEmail, txtEmail,
@@ -134,13 +136,12 @@ namespace MySellerApp.Forms
                 try
                 {
                     User user = _userService.Login(txtEmail.Text, txtPassword.Text);
-
                     this.Hide();
 
                     if (user.Role == "super" || user.Role == "normal")
                         new FormAdminDashboard(user).ShowDialog();
                     else
-                        new FormUserDashboard(user).ShowDialog();
+                        new FormGuestDashboard().ShowDialog(); // Xem & mua sản phẩm
 
                     this.Close();
                 }
@@ -165,10 +166,7 @@ namespace MySellerApp.Forms
                 this.Show();
             };
 
-            // Enter để đăng nhập
             this.AcceptButton = btnLogin;
         }
-
-
     }
 }

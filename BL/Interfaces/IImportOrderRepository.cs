@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MySellerApp.Models;
 
 namespace MySellerApp.BL.Interfaces
 {
-    internal class IImportOrderRepository
+    public interface IImportOrderRepository
     {
+        List<ImportOrder> GetAll();
+        void Create(int supplierId, int userId, string note,
+                   List<ImportOrderDetail> details, IProductRepository productRepo);
     }
 }

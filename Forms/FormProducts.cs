@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MySellerApp.DAL;
+using MySellerApp.Forms.Helpers;
+using MySellerApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using MySellerApp.DAL;
-using MySellerApp.Models;
 
 namespace MySellerApp.Forms
 {
@@ -34,110 +35,27 @@ namespace MySellerApp.Forms
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.White;
 
-            // ===== HEADER =====
-            var pnlHeader = new Panel();
-            pnlHeader.BackColor = Color.FromArgb(30, 80, 160);
-            pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Height = 50;
+            this.Controls.Add(UIHelper.CreateHeader("QUAN LY SAN PHAM", Color.FromArgb(30, 80, 160)));
 
-            var lblTitle = new Label();
-            lblTitle.Text = "QUAN LY SAN PHAM";
-            lblTitle.Font = new Font("Segoe UI", 13, FontStyle.Bold);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Dock = DockStyle.Fill;
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            pnlHeader.Controls.Add(lblTitle);
-
-            // ===== TOOLBAR =====
-            var pnlToolbar = new Panel();
-            pnlToolbar.BackColor = Color.FromArgb(245, 248, 255);
-            pnlToolbar.Dock = DockStyle.Top;
-            pnlToolbar.Height = 48;
-
-            var btnAdd = new Button();
-            btnAdd.Text = "Them san pham";
-            btnAdd.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnAdd.Size = new Size(150, 34);
-            btnAdd.Location = new Point(12, 7);
-            btnAdd.BackColor = Color.FromArgb(30, 160, 80);
-            btnAdd.ForeColor = Color.White;
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.FlatAppearance.BorderSize = 0;
-            btnAdd.Cursor = Cursors.Hand;
-            btnAdd.Click += (s, e) => ShowAddProductDialog();
-
-            var btnIncrease = new Button();
-            btnIncrease.Text = "+ Tang stock";
-            btnIncrease.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnIncrease.Size = new Size(130, 34);
-            btnIncrease.Location = new Point(172, 7);
-            btnIncrease.BackColor = Color.FromArgb(30, 130, 200);
-            btnIncrease.ForeColor = Color.White;
-            btnIncrease.FlatStyle = FlatStyle.Flat;
-            btnIncrease.FlatAppearance.BorderSize = 0;
-            btnIncrease.Cursor = Cursors.Hand;
-            btnIncrease.Click += (s, e) => AdjustStock(true);
-
-            var btnDecrease = new Button();
-            btnDecrease.Text = "- Giam stock";
-            btnDecrease.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnDecrease.Size = new Size(130, 34);
-            btnDecrease.Location = new Point(312, 7);
-            btnDecrease.BackColor = Color.FromArgb(200, 100, 30);
-            btnDecrease.ForeColor = Color.White;
-            btnDecrease.FlatStyle = FlatStyle.Flat;
-            btnDecrease.FlatAppearance.BorderSize = 0;
-            btnDecrease.Cursor = Cursors.Hand;
-            btnDecrease.Click += (s, e) => AdjustStock(false);
-
-            var btnDelete = new Button();
-            btnDelete.Text = "Xoa san pham";
-            btnDelete.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnDelete.Size = new Size(130, 34);
-            btnDelete.Location = new Point(452, 7);
-            btnDelete.BackColor = Color.FromArgb(180, 30, 30);
-            btnDelete.ForeColor = Color.White;
-            btnDelete.FlatStyle = FlatStyle.Flat;
-            btnDelete.FlatAppearance.BorderSize = 0;
-            btnDelete.Cursor = Cursors.Hand;
-            btnDelete.Click += (s, e) => DeleteProduct();
-
-            var btnRefresh = new Button();
-            btnRefresh.Text = "Lam moi";
-            btnRefresh.Font = new Font("Segoe UI", 9);
-            btnRefresh.Size = new Size(100, 34);
-            btnRefresh.Location = new Point(592, 7);
-            btnRefresh.BackColor = Color.FromArgb(240, 240, 240);
-            btnRefresh.FlatStyle = FlatStyle.Flat;
-            btnRefresh.Cursor = Cursors.Hand;
-            btnRefresh.Click += (s, e) => LoadData();
-
+            var pnlToolbar = new Panel { BackColor = Color.FromArgb(245, 248, 255), Dock = DockStyle.Top, Height = 48 };
             pnlToolbar.Controls.AddRange(new Control[] {
-                btnAdd, btnIncrease, btnDecrease, btnDelete, btnRefresh
-            });
+        UIHelper.CreateBtn("Them san pham", Color.FromArgb(30, 160, 80), (s,e) => ShowAddProductDialog(), 12, 7, 150),
+        UIHelper.CreateBtn("+ Tang stock", Color.FromArgb(30, 130, 200), (s,e) => AdjustStock(true), 172, 7, 130),
+        UIHelper.CreateBtn("- Giam stock", Color.FromArgb(200, 100, 30), (s,e) => AdjustStock(false), 312, 7, 130),
+        UIHelper.CreateBtn("Xoa san pham", Color.FromArgb(180, 30, 30), (s,e) => DeleteProduct(), 452, 7, 130),
+        UIHelper.CreateBtn("Lam moi", Color.FromArgb(240, 240, 240), (s,e) => LoadData(), 592, 7, 100)
+    });
+            this.Controls.Add(pnlToolbar);
 
-            // ===== DATAGRIDVIEW =====
-            _dgv = new DataGridView();
+            _dgv = UIHelper.CreateGrid();
             _dgv.Dock = DockStyle.Fill;
-            _dgv.ReadOnly = true;
-            _dgv.AllowUserToAddRows = false;
-            _dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            _dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _dgv.BackgroundColor = Color.White;
-            _dgv.RowTemplate.Height = 36;
-            _dgv.ColumnHeadersHeight = 40;
             _dgv.MultiSelect = false;
-
-            // Tô màu dòng hàng thấp
             _dgv.RowPrePaint += (s, e) =>
             {
                 if (e.RowIndex < 0 || e.RowIndex >= _dgv.Rows.Count) return;
                 var row = _dgv.Rows[e.RowIndex];
-                var qtyCell = row.Cells["Quantity"];
-                var minCell = row.Cells["MinStock"];
-                if (qtyCell?.Value == null || minCell?.Value == null) return;
-                if (Convert.ToInt32(qtyCell.Value) <=
-                    Convert.ToInt32(minCell.Value))
+                if (row.Cells["Quantity"]?.Value == null || row.Cells["MinStock"]?.Value == null) return;
+                if (Convert.ToInt32(row.Cells["Quantity"].Value) <= Convert.ToInt32(row.Cells["MinStock"].Value))
                 {
                     row.DefaultCellStyle.BackColor = Color.FromArgb(255, 240, 240);
                     row.DefaultCellStyle.ForeColor = Color.DarkRed;
@@ -148,10 +66,7 @@ namespace MySellerApp.Forms
                     row.DefaultCellStyle.ForeColor = Color.Black;
                 }
             };
-
             this.Controls.Add(_dgv);
-            this.Controls.Add(pnlToolbar);
-            this.Controls.Add(pnlHeader);
         }
 
         private void LoadData()

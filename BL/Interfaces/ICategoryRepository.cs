@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MySellerApp.Models;
 
 namespace MySellerApp.BL.Interfaces
 {
-    internal class ICategoryRepository
+    public interface ICategoryRepository
     {
+        List<Category> GetAll();
+        void Add(Category category);
+        void Delete(int id);
     }
 }

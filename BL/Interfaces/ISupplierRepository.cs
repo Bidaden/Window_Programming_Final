@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MySellerApp.Models;
 
 namespace MySellerApp.BL.Interfaces
 {
-    internal class ISupplierRepository
+    public interface ISupplierRepository
     {
+        List<Supplier> GetAll();
+        int Add(Supplier supplier); // Trả về ID mới
+        void Delete(int id);
     }
 }

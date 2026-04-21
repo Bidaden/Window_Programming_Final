@@ -16,8 +16,7 @@ namespace MySellerApp.DAL
             {
                 con.Open();
                 var cmd = new SqlCommand(
-                    "SELECT p.Id, p.SKU, p.Name, p.Price, p.Quantity, p.MinStock, " +
-                    "c.Name AS Category, s.Name AS Supplier " +
+                    "SELECT p.*, c.Name AS CategoryName, s.Name AS SupplierName " +
                     "FROM Products p " +
                     "JOIN Categories c ON p.CategoryId = c.Id " +
                     "JOIN Suppliers s ON p.SupplierId = s.Id", con);
@@ -33,8 +32,8 @@ namespace MySellerApp.DAL
                             Price = reader.GetDecimal(reader.GetOrdinal("Price")),
                             Quantity = reader.GetInt32(reader.GetOrdinal("Quantity")),
                             MinStock = reader.GetInt32(reader.GetOrdinal("MinStock")),
-                            Category = reader.GetString(reader.GetOrdinal("Category")),
-                            Supplier = reader.GetString(reader.GetOrdinal("Supplier"))
+                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                            SupplierId = reader.GetInt32(reader.GetOrdinal("SupplierId"))
                         });
                     }
                 }

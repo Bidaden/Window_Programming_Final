@@ -108,9 +108,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BL\CategoryService.cs" />
-    <Compile Include="BL\ExportOrderService.cs" />
-    <Compile Include="BL\ImportOrderService.cs" />
     <Compile Include="BL\Interfaces\ICategoryRepository.cs" />
     <Compile Include="BL\Interfaces\IExportOrderRepository.cs" />
     <Compile Include="BL\Interfaces\IImportOrderRepository.cs" />
@@ -120,12 +117,12 @@
     <Compile Include="BL\Interfaces\IUserRepository.cs" />
     <Compile Include="BL\Interfaces\SaleOrderService.cs" />
     <Compile Include="BL\ProductService.cs" />
-    <Compile Include="BL\StockMovementService.cs" />
-    <Compile Include="BL\SupplierService.cs" />
     <Compile Include="BL\UserService.cs" />
+    <Compile Include="common\AppConstants.cs" />
     <Compile Include="DAL\CategoryRepository.cs" />
     <Compile Include="DAL\DBConnection.cs" />
     <Compile Include="DAL\ExportOrderRepository.cs" />
+    <Compile Include="DAL\Helpers\TransactionHelper.cs" />
     <Compile Include="DAL\ImportOrderRepository.cs" />
     <Compile Include="DAL\ProductRepository.cs" />
     <Compile Include="DAL\SaleOrderRepository.cs" />
@@ -230,6 +227,7 @@
     <Compile Include="Forms\FormUserDashboard.Designer.cs">
       <DependentUpon>FormUserDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Helpers\UIHelpers.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\ExportOrder.cs" />
@@ -286,6 +284,7 @@
     <Folder Include="Image\Products\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\script.sql" />
     <Content Include="Image\AirPods Pro 2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
